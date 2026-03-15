@@ -1,5 +1,6 @@
-function Contact() {
+import ContactForm from "./ContactForm";
 
+function Contact() {
     return (
         <section id="contact" className="py-24 px-6 bg-gradient-to-t from-forest-green via-sage-green to-light-green">
 
@@ -46,36 +47,7 @@ function Contact() {
                         ))}
                     </div>
                 </div>
-
-                {/* Contact Form */}
-                <div className="bg-white/10 backdrop-blur-xl p-6 sm:p-8 md:p-12 rounded-3xl shadow-2xl border border-white/20">
-                    <form className="space-y-6">
-                        <input
-                            type="text"
-                            placeholder="Your Name"
-                            className="w-full p-4 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white/50 transition-all duration-300 text-lg"
-                            required
-                        />
-                        <input
-                            type="email"
-                            placeholder="your.email@example.com"
-                            className="w-full p-4 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white/50 transition-all duration-300 text-lg"
-                            required
-                        />
-                        <textarea
-                            rows="5"
-                            placeholder="Tell me about your project..."
-                            className="w-full p-4 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-4 focus:ring-white/30 focus:border-white/50 transition-all duration-300 text-lg resize-vertical"
-                            required
-                        ></textarea>
-                        <button
-                            type="submit"
-                            className="w-full bg-gradient-to-r from-white to-gray-100 text-forest-green font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-2xl text-lg sm:text-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 hover:from-gray-50 hover:to-white transition-all duration-300 border-2 border-white/20"
-                        >
-                            Send Message
-                        </button>
-                    </form>
-                </div>
+                <ContactForm/>
             </div>
         </section>
     );
