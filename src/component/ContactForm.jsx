@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
+import { sendEmail } from '../service/email';
 
 function ContactForm() {
   const form = useRef();
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
 
@@ -13,24 +14,18 @@ function ContactForm() {
     const email = form.current[1].value.trim();
     const message = form.current[2].value.trim();
 
-    fetch("http://localhost:5000/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, message }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          setStatus("✅ Message sent! Check your inbox for confirmation.");
-          form.current.reset();
-        } else {
-          setStatus("❌ Failed to send message. Try again later.");
-        }
-        setSending(false);
-      })
-      .catch(() => {
+    try {
+      const res = await sendEmail({ name, email, message });
+      if (res.ok) {
+        setStatus("✅ Message sent! Check your inbox for confirmation.");
+        form.current.reset();
+      } else {
         setStatus("❌ Failed to send message. Try again later.");
-        setSending(false);
-      });
+      }
+    } catch (err) {
+      setStatus("❌ Failed to send message. Try again later.");
+    }
+    setSending(false);
   };
 
   return (
@@ -60,9 +55,8 @@ function ContactForm() {
         <button
           type="submit"
           disabled={sending}
-          className={`w-full bg-gradient-to-r from-white to-gray-100 text-forest-green font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-2xl text-lg sm:text-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 hover:from-gray-50 hover:to-white transition-all duration-300 border-2 border-white/20 ${
-            sending ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`w-full bg-gradient-to-r from-white to-gray-100 text-forest-green font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-2xl text-lg sm:text-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 hover:from-gray-50 hover:to-white transition-all duration-300 border-2 border-white/20 ${sending ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           {sending ? "Sending..." : "Send Message"}
         </button>
